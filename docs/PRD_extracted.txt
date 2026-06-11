@@ -1,0 +1,1522 @@
+ResumeAI
+ AI Resume Builder + AI Resume Coach
+ Product Requirements Document  Version 1.0  2025
+ 
+Next.js
+Node.js
+MySQL
+OpenAI API
+Tailwind CSS
+ Indian Market First  Hinglish-Friendly UX  ATS-Optimized
+ 
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 2
+Table of Contents
+1. Product Overview & Vision
+3
+2. Market Research & Competitor Analysis
+4
+3. User Personas
+5
+4. Core Features — Deep Dive
+6
+5. AI System Design & Architecture
+8
+6. UX Flow & User Journey
+10
+7. Database Design (MySQL)
+11
+8. API Design
+13
+9. AI Prompt Engineering System
+15
+10. Resume Scoring Engine
+16
+11. Security & Privacy
+17
+12. Monetization Strategy
+18
+13. MVP Roadmap — Phase 1 → 3
+19
+14. Technical Architecture
+20
+15. Analytics & Tracking
+21
+16. Risks & Mitigation
+22
+17. Future Vision & Roadmap
+23
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 3
+1. Product Overview & Vision
+What we're building, why it matters, and who we're building it for
+Vision: Ek aisa AI-powered platform jo har Indian student aur professional ko recruiter-ready resume banane mein help
+kare — bina career counselor ke.
+1.1 Mission Statement
+ResumeAI ka mission hai har job seeker ko — chahe fresher ho, career switcher ho, ya non-English speaker — ek
+intelligent AI coach dena jo unka resume real-time mein improve kare, ATS systems se paar karaye, aur unhe interview
+tak pohchaye.
+1.2 Problem Statement
+India mein har saal 1.5 crore+ graduates job market mein aate hain. In mein se 78% ke paas professionally written
+resume nahi hota. Current resume builders: templates dete hain lekin guidance nahi. ATS rejection rate 75% se zyada
+hai. Professional resume writers expensive hain (■2,000–■15,000). Non-English speakers ke liye aur bhi mushkil hai.
+ Problem
+ Current Reality
+ 
+Wrong Tool
+Canva/Word/Google Docs — design tools, not career tools
+No AI Guidance
+Existing builders fill forms, not improve content
+ATS Blindness
+Beautiful resumes that get auto-rejected by ATS bots
+Generic Output
+Same template for a fresher and a 10-year veteran
+Language Barrier
+English-only UX alienates 60% of Indian job seekers
+No Feedback Loop
+Users submit resumes without knowing why they fail
+1.3 Unique Value Proposition
+AI Coach
+Real-time bullet improvement &
+weak phrase detection
+ATS Engine
+Live ATS score + JD keyword
+matching before you export
+Hinglish UX
+India-first interface with bilingual
+coaching messages
+1.4 Target Audience
+Segment
+ Profile
+ Context
+ 
+Primary
+College students & fresh graduates (18–24)
+India — Tier 1, 2, 3 cities
+Secondary
+Early professionals (1–5 years exp)
+IT, Finance, Marketing
+Tertiary
+Career switchers & MBA students
+Upskilling segment
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 4
+Segment
+ Profile
+ Context
+ 
+Special
+Non-English speakers, regional language users
+Hindi belt, South India
+B2B
+Colleges, bootcamps, placement cells
+Institution partnerships
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 5
+2. Market Research & Competitor Analysis
+Market Size: India's online career services market is ■4,200 Cr (2024) growing at 18% CAGR. Resume builder TAM
+globally: $1.2B by 2027.
+2.1 Competitor Analysis
+Competitor
+ Strengths
+ Weaknesses
+ 
+Canva
+Beautiful templates, brand recognition
+No AI coaching, not ATS-friendly, design over substance
+Zety
+Strong ATS tips, good content suggestions
+Expensive ($23/mo), no Indian market focus, English only
+Rezi
+Best ATS optimization, keyword analysis
+Complex UX, no real-time AI coach, expensive for students
+Kickresume
+AI writing, good templates, LinkedIn import
+Weak ATS scoring, no JD matching, limited free tier
+Resume.io
+Clean UX, fast creation
+No AI coach, generic suggestions, no Indian context
+Naukri Resume
+India-specific, free
+Outdated UI, no AI features, poor PDF quality
+2.2 Market Gap — Our Opportunity
+ No Indian-first AI resume coach: existing tools ignore Hinglish UX, Indian job portals (Naukri, LinkedIn India), and
+Indian resume conventions
+ Real-time coaching gap: all competitors are form-fill tools — none provide inline AI suggestions as you type
+ ATS + JD matching together: no tool combines live ATS scoring WITH specific JD keyword extraction in one flow
+ Affordability: ■0–■499/month vs $15–$25/month — massive price gap for students
+ Resume Roast / Scoring: gamified feedback mechanism that no competitor offers
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 6
+3. User Personas
+Five detailed personas driving every product decision
+■ Priya — College Fresher
+Age / Location
+21, Jaipur, B.Tech CSE final year
+Goal
+First job in IT — Infosys, TCS, or startup
+Pain Points
+Never written a resume; doesn't know what ATS is; writes 'I am hardworking' in every bullet
+Tech Comfort
+High with mobile, medium with web apps
+Needs from ResumeAI
+Step-by-step guidance, AI questioning ('Tell me your best project'), Hinglish tips
+Success Metric
+Lands first interview within 30 days of using platform
+■ Rahul — Software Engineer (3 yrs)
+Age / Location
+25, Bengaluru, working at mid-size IT company
+Goal
+Switch to product company — Flipkart, Swiggy, or FAANG
+Pain Points
+Has experience but can't quantify achievements; resume reads like a job description
+Tech Comfort
+Very high
+Needs from ResumeAI
+Bullet rewriter, impact quantification, ATS score for specific JDs
+Success Metric
+Resume score improves from 54 → 85+ for target JD
+■ Meena — Career Switcher
+Age / Location
+29, Pune, moving from banking to product management
+Goal
+Reposition 5 years of banking experience for PM roles
+Pain Points
+Transferable skills not highlighted; resume looks wrong for new field
+Tech Comfort
+Medium
+Needs from ResumeAI
+JD-based tailoring, skill gap analysis, AI rewrite for sector change
+Success Metric
+Gets PM interview callbacks within 60 days
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 7
+■ Arjun — Non-English Speaker
+Age / Location
+23, Patna, Hindi medium background
+Goal
+Government / PSU job or private sector entry-level
+Pain Points
+Struggles with professional English; grammar errors; doesn't know industry keywords
+Tech Comfort
+Medium-low
+Needs from ResumeAI
+Hinglish UI, grammar correction, simple English suggestions, basic templates
+Success Metric
+Creates grammatically correct, professional resume without external help
+■ Shreya — Recruiter (Platform Insight Persona)
+Role
+Senior HR, 200-person tech startup, receives 300 resumes/week
+Frustration
+80% resumes are generic; no quantified achievements; ATS spammed with keyword stuffing
+What she wants to see
+Impact numbers, clean formatting, role-relevant skills, honest profiles
+Value for platform
+Her perspective shapes our AI scoring rubric and ATS rules engine
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 8
+4. Core Features — Deep Dive
+Every feature explained with implementation detail
+4.1 AI Resume Builder
+ AI-guided section-by-section creation flow (not a blank form)
+ AI Questioning System: asks user about experience, projects, achievements via chat interface
+ Extracts structured data from conversational answers using GPT function calling
+ Auto-fills resume sections from user's chat responses
+ Smart defaults based on role/industry/experience level selection
+4.2 Real-Time AI Suggestions
+ Inline suggestions appear as user types (500ms debounce)
+ Weak phrase detection: flags 'responsible for', 'helped with', 'worked on'
+ Strong verb suggestions: 'Architected', 'Reduced', 'Scaled', 'Delivered'
+ Hinglish coaching: 'Yeh bullet weak hai — isko quantify karo!'
+ Context-aware: different suggestions for fresher vs senior profiles
+4.3 ATS Score Checker
+ Analyzes resume against 40+ ATS criteria (keywords, formatting, structure)
+ Scores: Overall ATS Score, Keyword Match %, Format Score, Readability
+ Identifies: missing sections, problematic formatting, keyword gaps
+ Section-level scoring — shows which section is pulling score down
+ Actionable fix suggestions for each failing criterion
+4.4 JD Keyword Matching & Tailoring
+ User pastes or uploads Job Description
+ AI extracts must-have and nice-to-have keywords from JD
+ Compares against resume — shows matched vs missing keywords
+ One-click tailoring: AI rewrites relevant bullets to include missing keywords naturally
+ Tailoring score: shows % match improvement after each edit
+4.5 AI Bullet Improvement
+ Single-click bullet rewrite using STAR format (Situation → Task → Action → Result)
+ Adds metrics and quantification where user inputs raw data
+ Three rewrite variants shown — user picks best one
+ Before/After comparison UI
+ Explains WHY the new version is better (educational mode)
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 9
+4.6 Resume Scoring Engine
+ 5-dimension scoring: ATS (30%), Impact (25%), Readability (20%), Keywords (15%), Format (10%)
+ Overall score out of 100 with visual gauge
+ Percentile comparison: 'Your resume scores better than 67% of resumes for this role'
+ Score history tracking — shows improvement over time
+ Score breakdown with specific fix recommendations
+4.7 Resume Roast Mode
+ AI simulates a brutally honest recruiter reviewing the resume
+ Gamified tone: direct, funny, but constructive ('Bhai, ye bullet padh ke koi hire nahi karega')
+ Section-by-section roast with specific improvement suggestions
+ Shareable roast report for social media
+ Premium feature — high engagement / virality driver
+4.8 AI Recruiter Simulation
+ AI simulates a recruiter for the target company/role
+ Asks resume-based screening questions
+ Evaluates answers and gives feedback
+ Highlights resume gaps that a recruiter would catch
+ Premium feature — bridges resume builder and interview prep
+4.9 Multi-Language Support
+ UI available in English and Hindi (Phase 1)
+ AI coaching messages in Hinglish for Indian users
+ Resume content stays in English (industry standard)
+ Error messages, tips, and guidance in preferred language
+ Phase 2: Tamil, Telugu, Bengali interface support
+4.10 Template System
+ 15+ ATS-friendly templates (Phase 1)
+ Categories: Fresher, Technical, Creative, Executive, Academic
+ All templates verified ATS-parseable (no tables, no text boxes)
+ Live template switching — content preserved across template changes
+ Color and font customization within ATS-safe parameters
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 10
+5. AI System Design & Architecture
+Micro-AI architecture, prompt engineering, and cost optimization
+5.1 Micro-AI Architecture
+ResumeAI uses a modular micro-AI architecture where each feature has its own dedicated AI pipeline with specialized
+prompts, context, and output parsers. This prevents prompt interference and enables independent cost optimization.
+AI Module
+ Function
+ Model
+ Avg Cost
+ 
+BulletImprover
+Rewrites weak bullets
+gpt-4o-mini
+~200 tokens/call
+ATSAnalyzer
+Scores resume against ATS criteria
+gpt-4o
+~800 tokens/call
+JDExtractor
+Extracts keywords from JD
+gpt-4o-mini
+~400 tokens/call
+ResumeCoach
+Conversational resume building
+gpt-4o
+~600 tokens/call
+RoastEngine
+Brutally honest resume review
+gpt-4o
+~1000 tokens/call
+ScoringEngine
+Multi-dimensional resume scoring
+gpt-4o
+~700 tokens/call
+QuestionEngine
+Extracts achievements via questions
+gpt-4o-mini
+~300 tokens/call
+RecruiterSim
+Simulates recruiter interview
+gpt-4o
+~500 tokens/call
+5.2 Prompt Engineering Strategy
+ System Role Injection: Each AI module has a specialized system prompt that establishes expert persona (e.g., 'You
+are a senior tech recruiter at a Fortune 500 company...')
+ Structured JSON Output: All AI responses are requested as JSON with strict schema — prevents hallucination and
+enables reliable parsing
+ Few-Shot Examples: Each prompt includes 2-3 example input/output pairs for consistent formatting
+ Context Passing: Resume sections passed as structured JSON context, not raw text
+ Temperature Control: Creative tasks (roast, suggestions): temp 0.7 | Scoring/ATS: temp 0.1 for consistency
+ Token Budget Enforcement: Max tokens set per module to control costs — 200 for bullets, 1000 for full analysis
+5.3 Context Memory Strategy
+ResumeAI maintains session-level context across the resume building conversation. A rolling context window stores the
+last 10 exchanges + current resume state. Redis cache stores session context (TTL: 2 hours). Full context saved to
+MySQL ai_sessions table for premium users' history feature.
+5.4 Hallucination Prevention
+ AI never invents job titles, companies, or dates — only rewrites user-provided content
+ Strict JSON schema validation on all AI outputs — malformed responses trigger retry
+ Achievement metrics only suggested when user provides a base number to quantify
+ All AI suggestions shown as 'suggestions' — user must explicitly accept changes
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 11
+ Confidence scoring: low-confidence outputs flagged with 'Please verify this suggestion'
+5.5 Cost Optimization Strategy
+ Strategy
+ Implementation
+ 
+Model Tiering
+Use gpt-4o-mini for simple tasks (bullets, Q&A;) — 10x cheaper than gpt-4o
+Response Caching
+Cache identical ATS analyses (same resume hash) in Redis — 40% cost reduction
+Streaming
+Stream AI responses to frontend — improves perceived performance
+Batch Analysis
+Group multiple section analyses into one API call where possible
+Free Tier Limits
+Free users: 10 AI suggestions/day; Pro: unlimited — controls AI spend
+Token Monitoring
+Per-user token tracking in MySQL — alert at 80% of plan limit
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 12
+6. UX Flow & User Journey
+Complete interaction flows for every major user path
+6.1 Onboarding Flow
+Step 1: Landing page → 'Build Free Resume' CTA (no signup required for preview)
+Step 2: Quick profile: Name, Target Role, Experience Level (3 options: Student / 0-2 yrs / 2+ yrs)
+Step 3: Template selection (3 recommended based on profile)
+Step 4: Email signup shown AFTER first section is filled (value-first onboarding)
+Step 5: Google OAuth or Email/Password — JWT token issued
+Step 6: User lands on Resume Editor with pre-filled name and role
+6.2 Resume Creation Flow
+Step 1: Left: Section navigator (Contact, Summary, Experience, Education, Skills, Projects)
+Step 2: Center: Live resume preview (real-time rendering)
+Step 3: Right: AI Coach panel (suggestions, tips, score)
+Step 4: Each section has AI-guided mode (questionnaire) or manual mode
+Step 5: AI questionnaire: 'Tell me about your most impactful project' → extracts structured data
+Step 6: Progress bar shows resume completeness score
+Step 7: Auto-save every 30 seconds to backend
+6.3 AI Coaching Interaction Flow
+Step 1: User types in experience bullet → 500ms debounce → AI analyzes
+Step 2: AI suggestion appears as inline ghost text OR right panel card
+Step 3: User can: Accept (Tab key), Dismiss (Esc), See 3 alternatives, Ask why
+Step 4: 'Why is this better?' shows educational explanation in Hinglish
+Step 5: Weak phrases highlighted in yellow underline — click to get improvement
+Step 6: AI Coach chat at bottom: user can ask 'How do I describe my internship at TCS?'
+6.4 JD Upload & Tailoring Flow
+Step 1: User clicks 'Tailor for Job' → paste JD or upload PDF
+Step 2: AI extracts: Required Skills, Preferred Skills, Role Keywords, Company Values
+Step 3: Side-by-side view: Resume keywords vs JD keywords
+Step 4: Missing keywords shown in red — click each to see suggested placement
+Step 5: One-click 'Auto-Tailor' rewrites bullets to include top 5 missing keywords
+Step 6: Before/After comparison with match score improvement shown
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 13
+6.5 Export Flow
+Step 1: Click Export → choose: PDF (ATS-safe) / PDF (Visual) / DOCX
+Step 2: ATS check runs automatically before export
+Step 3: If ATS score < 60: warning modal with top 3 fixes suggested
+Step 4: User can export anyway or fix first
+Step 5: PDF generated server-side (Puppeteer) for pixel-perfect rendering
+Step 6: Download link valid 24 hours, stored in exports table
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 14
+7. Database Design (MySQL)
+Complete schema with relationships, indexes, and design rationale
+Engine: MySQL 8.x — InnoDB engine for all tables. UTF8MB4 charset for emoji/Unicode support. All FKs with ON
+DELETE CASCADE unless noted.
+7.1 Entity Relationship Overview
+Core entities: users → resumes → resume_versions → resume_sections. AI layer: ai_feedback → resume_sections.
+Job matching: job_descriptions ← ats_scores → resumes. Monetization: subscriptions → users, usage_logs → users.
+Export: exports → resume_versions. Templates: templates (independent).
+Table: users
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+email
+VARCHAR(255) UNIQUE NOT NULL
+password_hash
+VARCHAR(255) NULL — bcrypt, NULL for OAuth
+full_name
+VARCHAR(150) NOT NULL
+avatar_url
+VARCHAR(500) NULL
+target_role
+VARCHAR(100) NULL — e.g. 'Software Engineer'
+experience_level
+ENUM('student','junior','mid','senior') DEFAULT 'student'
+preferred_lang
+ENUM('en','hi') DEFAULT 'en'
+oauth_provider
+VARCHAR(30) NULL — 'google' | 'github'
+oauth_uid
+VARCHAR(200) NULL
+is_active
+TINYINT(1) DEFAULT 1
+email_verified
+TINYINT(1) DEFAULT 0
+created_at
+DATETIME DEFAULT CURRENT_TIMESTAMP
+updated_at
+DATETIME ON UPDATE CURRENT_TIMESTAMP
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 15
+Table: resumes
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+user_id
+INT UNSIGNED NOT NULL — FK users(id)
+title
+VARCHAR(200) NOT NULL — e.g. 'SWE Resume v2'
+template_id
+INT UNSIGNED NOT NULL — FK templates(id)
+status
+ENUM('draft','active','archived') DEFAULT 'draft'
+ats_score
+TINYINT UNSIGNED NULL — cached latest score (0-100)
+overall_score
+TINYINT UNSIGNED NULL — cached composite score
+is_primary
+TINYINT(1) DEFAULT 0 — user's main resume
+created_at
+DATETIME DEFAULT CURRENT_TIMESTAMP
+updated_at
+DATETIME ON UPDATE CURRENT_TIMESTAMP
+INDEX
+idx_user_id (user_id)
+INDEX
+idx_status (status)
+Table: resume_versions
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+resume_id
+INT UNSIGNED NOT NULL — FK resumes(id)
+version_num
+SMALLINT UNSIGNED NOT NULL — 1, 2, 3...
+snapshot
+JSON NOT NULL — complete resume data snapshot
+label
+VARCHAR(100) NULL — e.g. 'Before JD tailoring'
+created_at
+DATETIME DEFAULT CURRENT_TIMESTAMP
+INDEX
+idx_resume_id (resume_id)
+UNIQUE
+unique_version (resume_id, version_num)
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 16
+Table: resume_sections
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+resume_id
+INT UNSIGNED NOT NULL — FK resumes(id)
+section_type
+ENUM('contact','summary','experience','education','skills','projects','certifications','custom')
+section_order
+TINYINT UNSIGNED DEFAULT 0 — display order
+content
+JSON NOT NULL — structured section data
+is_visible
+TINYINT(1) DEFAULT 1
+ai_score
+TINYINT UNSIGNED NULL — section-level AI score
+updated_at
+DATETIME ON UPDATE CURRENT_TIMESTAMP
+INDEX
+idx_resume_section (resume_id, section_type)
+Table: ai_feedback
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+user_id
+INT UNSIGNED NOT NULL — FK users(id)
+section_id
+INT UNSIGNED NULL — FK resume_sections(id)
+feedback_type
+ENUM('bullet_improve','ats_check','keyword_match','score','roast','coach_chat','recruiter_sim')
+original_text
+TEXT NULL
+ai_suggestion
+TEXT NOT NULL
+ai_model
+VARCHAR(50) — e.g. 'gpt-4o-mini'
+tokens_used
+SMALLINT UNSIGNED DEFAULT 0
+accepted
+TINYINT(1) NULL — NULL=pending, 1=accepted, 0=rejected
+created_at
+DATETIME DEFAULT CURRENT_TIMESTAMP
+INDEX
+idx_user_feedback (user_id, feedback_type)
+INDEX
+idx_section_feedback (section_id)
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 17
+Table: job_descriptions
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+user_id
+INT UNSIGNED NOT NULL — FK users(id)
+title
+VARCHAR(200)
+company
+VARCHAR(150)
+raw_text
+TEXT NOT NULL
+extracted_data
+JSON NULL — {required_skills, preferred_skills, keywords, role_level}
+created_at
+DATETIME DEFAULT CURRENT_TIMESTAMP
+Table: ats_scores
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+resume_id
+INT UNSIGNED NOT NULL — FK resumes(id)
+jd_id
+INT UNSIGNED NULL — FK job_descriptions(id), NULL for general ATS check
+overall_score
+TINYINT UNSIGNED NOT NULL
+keyword_score
+TINYINT UNSIGNED NOT NULL
+format_score
+TINYINT UNSIGNED NOT NULL
+impact_score
+TINYINT UNSIGNED NOT NULL
+readability_score
+TINYINT UNSIGNED NOT NULL
+breakdown
+JSON NOT NULL — detailed per-criterion scores and fixes
+created_at
+DATETIME DEFAULT CURRENT_TIMESTAMP
+INDEX
+idx_resume_ats (resume_id)
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 18
+Table: templates
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+name
+VARCHAR(100) NOT NULL
+category
+ENUM('fresher','technical','creative','executive','academic')
+thumbnail_url
+VARCHAR(500)
+html_template
+TEXT NOT NULL — Handlebars/Mustache template string
+css_styles
+TEXT NOT NULL
+is_premium
+TINYINT(1) DEFAULT 0
+is_active
+TINYINT(1) DEFAULT 1
+sort_order
+TINYINT UNSIGNED DEFAULT 0
+Table: exports
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+user_id
+INT UNSIGNED NOT NULL — FK users(id)
+resume_id
+INT UNSIGNED NOT NULL — FK resumes(id)
+version_id
+INT UNSIGNED NULL — FK resume_versions(id)
+export_type
+ENUM('pdf_ats','pdf_visual','docx')
+file_url
+VARCHAR(500) NOT NULL — server path or CDN URL
+file_size_kb
+SMALLINT UNSIGNED
+expires_at
+DATETIME — link expiry
+created_at
+DATETIME DEFAULT CURRENT_TIMESTAMP
+INDEX
+idx_user_exports (user_id)
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 19
+Table: subscriptions
+Column / Constraint
+ Definition
+ 
+id
+INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+user_id
+INT UNSIGNED NOT NULL UNIQUE — FK users(id)
+plan
+ENUM('free','starter','pro','enterprise') DEFAULT 'free'
+razorpay_sub_id
+VARCHAR(200) NULL — Razorpay subscription ID
+razorpay_customer_id
+VARCHAR(200) NULL
+status
+ENUM('active','past_due','canceled','trialing') DEFAULT 'active'
+current_period_start
+DATETIME NULL
+current_period_end
+DATETIME NULL
+cancel_at_period_end
+TINYINT(1) DEFAULT 0
+created_at
+DATETIME DEFAULT CURRENT_TIMESTAMP
+updated_at
+DATETIME ON UPDATE CURRENT_TIMESTAMP
+Table: usage_logs
+Column / Constraint
+ Definition
+ 
+id
+BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+user_id
+INT UNSIGNED NOT NULL — FK users(id)
+action
+VARCHAR(50) — e.g. 'bullet_improve', 'ats_check', 'export_pdf'
+metadata
+JSON NULL — {model, tokens, resume_id, jd_id}
+created_at
+DATETIME DEFAULT CURRENT_TIMESTAMP
+INDEX
+idx_user_action (user_id, action)
+INDEX
+idx_created_at (created_at) — for daily analytics
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 20
+8. API Design
+RESTful API endpoints — Node.js / Express backend
+Convention: Base URL: /api/v1/ — JSON request/response — JWT Bearer auth — Rate limiting: 60 req/min free, 300
+req/min pro
+8.1 Authentication APIs
+Metho
+d
+ Endpoint
+ Description
+ 
+POST
+/auth/register
+Register user — {email, password, full_name}
+POST
+/auth/login
+Login — {email, password} → {access_token, refresh_token}
+POST
+/auth/refresh
+Refresh JWT — {refresh_token} → new access_token
+POST
+/auth/logout
+Revoke refresh token
+GET
+/auth/google
+Google OAuth redirect
+GET
+/auth/google/callback
+OAuth callback — issues JWT
+POST
+/auth/forgot-password
+Send reset email
+POST
+/auth/reset-password
+Reset with token — {token, new_password}
+8.2 Resume CRUD APIs
+Metho
+d
+ Endpoint
+ Description
+ 
+GET
+/resumes
+List user's resumes
+POST
+/resumes
+Create resume — {title, template_id}
+GET
+/resumes/:id
+Get full resume with all sections
+PUT
+/resumes/:id
+Update resume metadata
+DELET
+E
+/resumes/:id
+Soft-delete resume
+GET
+/resumes/:id/versions
+List version history
+POST
+/resumes/:id/versions
+Save snapshot as new version
+POST
+/resumes/:id/sections
+Add/update a section — {section_type, content}
+PUT
+/resumes/:id/sections/:sid
+Update section content
+DELET
+E
+/resumes/:id/sections/:sid
+Remove section
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 21
+8.3 AI Feature APIs
+Metho
+d
+ Endpoint
+ Description / Response
+ 
+POST
+/ai/bullet/improve
+Rewrite bullet — {text, role, experience_level} → {suggestions[3], explanation}
+POST
+/ai/resume/score
+Score resume — {resume_id} → {overall, ats, impact, readability, keywords,
+breakdown}
+POST
+/ai/resume/coach
+AI chat — {message, session_id, resume_id} → {reply, suggestions}
+POST
+/ai/resume/roast
+Roast resume — {resume_id} → {roast_sections, overall_verdict}
+POST
+/ai/resume/question
+Get next question — {resume_id, section, history} → {question, purpose}
+POST
+/ai/recruiter/simulate
+Recruiter sim — {resume_id, jd_id, question} → {response, gap_analysis}
+8.4 ATS & JD APIs
+Metho
+d
+Endpoint
+ Description
+ 
+POST
+/ats/analyze
+{resume_id, jd_id?} → full ATS report with fix suggestions
+POST
+/jd/extract
+{raw_text} → {required_skills, keywords, role_level, nice_to_have}
+POST
+/jd/match
+{resume_id, jd_id} → {match_score, missing_keywords, matched_keywords}
+POST
+/jd/tailor
+{resume_id, jd_id, auto_apply?} → {tailored_sections, score_improvement}
+8.5 Export & Payment APIs
+Metho
+d
+ Endpoint
+ Description
+ 
+POST
+/export/pdf
+{resume_id, type: 'ats'|'visual'} → {download_url, expires_at}
+POST
+/export/docx
+{resume_id} → {download_url}
+GET
+/subscriptions/plans
+List available plans
+POST
+/subscriptions/create
+{plan_id} → Razorpay checkout session
+POST
+/webhooks/razorpay
+Razorpay payment webhook handler
+GET
+/subscriptions/me
+Current user subscription status
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 22
+9. AI Prompt Engineering System
+Production-grade prompts for every AI module
+9.1 Bullet Improvement Prompt
+Role: SYSTEM
+Prompt Template:
+You are a senior technical recruiter and resume coach with 15 years of experience.
+Your task: rewrite the given resume bullet point to be stronger, more impactful, and ATS-friendly.
+Rules:
+1. Start with a strong action verb
+2. Add quantifiable metrics where user provides numbers
+3. Follow STAR format implicitly (Action → Result)
+4. Never invent numbers or achievements
+5. Keep it under 20 words
+Output JSON: {"suggestions": [str, str, str], "explanation": str, "weak_phrases_found": [str]}
+User context: Role={role}, Experience={level}
+9.2 ATS Analysis Prompt
+Role: SYSTEM
+Prompt Template:
+You are an ATS (Applicant Tracking System) expert.
+Analyze the provided resume JSON and score it on these criteria:
+- keyword_score (0-100): presence of role-relevant keywords
+- format_score (0-100): ATS-parseable structure, no tables/graphics
+- contact_score (0-100): email, phone, LinkedIn present
+- experience_score (0-100): dates, titles, companies structured correctly
+- skills_score (0-100): skills section present and well-formatted
+Output JSON: {"overall": int, "scores": {}, "critical_issues": [str], "fixes": [str]}
+Be deterministic. Temperature: 0.1
+9.3 Resume Roast Prompt
+Role: SYSTEM
+Prompt Template:
+You are a brutally honest but constructive resume reviewer.
+Your style: Direct, occasionally humorous (like a friendly senior who wants you to succeed).
+For Indian audience: Hinglish is encouraged in roast messages.
+For each section, give: rating (1-5), roast (1-2 sentences), fix (specific improvement).
+End with: overall_verdict and top_3_fixes.
+Output JSON: {"sections": [{name, rating, roast, fix}], "overall_verdict": str, "top_3_fixes": [str]}
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 23
+Example roast tone: "Yeh summary padh ke lagta hai ChatGPT ne 10 second mein likha."
+9.4 Prompt Version Control Strategy
+ All prompts stored in /src/ai/prompts/ as .ts files with version comments
+ Prompt changes go through A/B testing — 50% traffic on new prompt, compare acceptance rates
+ Prompt performance logged: tokens used, user acceptance rate, latency
+ Rollback mechanism: feature flag switches between prompt versions
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 24
+10. Resume Scoring Engine
+Multi-dimensional weighted scoring system
+10.1 Scoring Dimensions & Weights
+Dimension
+Weight
+ What We Measure
+ 
+ATS Compatibility
+30%
+Keyword presence, format parsability, section structure, file compatibility
+Impact Score
+25%
+Action verbs, quantified achievements, STAR format adherence
+Keyword Relevance
+20%
+Role-specific keywords, industry terms, skill match to target role
+Readability
+15%
+Sentence length, clarity, grammar quality, professional tone
+Format & Structure
+10%
+Visual hierarchy, section completeness, appropriate length
+10.2 ATS Scoring Criteria (30 points breakdown)
+ Criterion
+ Max Points
+ Detection Method
+ 
+Email present
+3pts
+Simple regex check
+Phone present
+2pts
+Indian format: +91XXXXXXXXXX
+LinkedIn URL
+2pts
+linkedin.com/in/ pattern match
+No tables/columns
+4pts
+HTML/JSON structure analysis
+Standard section names
+4pts
+Experience, Education, Skills — not fancy aliases
+Date format consistent
+3pts
+Month YYYY or YYYY format
+No images/graphics
+3pts
+Template analysis
+File parsability
+4pts
+PDF text layer present
+Skills section
+3pts
+Dedicated skills section present
+Action verbs used
+2pts
+Starts bullets with verb from action verb list
+10.3 Impact Scoring Rubric
+ Factor
+ Points
+ Detection
+ 
+Quantified achievement
++3pts each
+Numbers/% in bullet
+Strong action verb
++2pts each
+From curated list of 150 power verbs
+STAR structure
++2pts
+Implied action + result in bullet
+Passive voice
+-2pts each
+'Was responsible for', 'Assisted with'
+Weak filler phrases
+-1pt each
+'Various', 'several', 'helped with'
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 25
+ Factor
+ Points
+ Detection
+ 
+Responsibilities-only
+-5pts total
+No achievement mentioned across experience
+10.4 Score Interpretation
+Score
+Grade
+ Recommendation
+ 
+85–100
+Excellent
+Ready to apply — strong for ATS and recruiter review
+70–84
+Good
+Minor improvements recommended — apply to most roles
+55–69
+Fair
+Several issues to fix before applying — use AI suggestions
+40–54
+Weak
+Significant rework needed — use Resume Coach flow
+0–39
+Poor
+Start over with AI-guided building — multiple critical issues
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 26
+11. Security & Privacy
+11.1 Authentication & Authorization
+ JWT Access Tokens: 15-minute expiry — short-lived to limit exposure
+ Refresh Tokens: 7-day expiry, stored httpOnly cookie — not accessible to JS
+ Password Hashing: bcrypt with cost factor 12
+ OAuth Security: PKCE flow for Google OAuth — prevents auth code interception
+ Rate Limiting: express-rate-limit: 5 login attempts / 15 min per IP — blocks brute force
+ Role Guards: Middleware validates subscription tier before AI feature access
+11.2 Data Security
+ All API communication over HTTPS (TLS 1.3)
+ Resume content stored as JSON in MySQL — no raw file storage
+ Uploaded JD files scanned for malware before processing — multer + file-type validation
+ User photos / avatars stored with randomized filenames — no enumerable URLs
+ SQL injection prevention: Sequelize ORM with parameterized queries throughout
+ XSS prevention: helmet.js headers, DOMPurify on all user-rendered content
+11.3 AI Privacy
+ Resume data sent to OpenAI API — only the specific section being analyzed, never full PII
+ No user data used for OpenAI model training (Enterprise API agreement)
+ User can request 'AI amnesia' — clears all stored AI feedback from DB
+ AI suggestions are ephemeral by default — only stored if user accepts
+11.4 Privacy Policy & Compliance
+ Area
+ Implementation
+ 
+Data Deletion
+Full account + resume deletion within 24 hours of request
+Data Export
+User can export all their data as JSON (GDPR Art. 20)
+Consent
+Explicit consent before AI processing of resume data
+Cookies
+Only essential + analytics cookies; user controls in settings
+Minors
+No users under 16; age confirmation at registration
+Indian IT Act
+Compliant with IT Act 2000 and DPDP Act 2023 requirements
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 27
+12. Monetization Strategy
+India-first freemium model with Razorpay integration
+12.1 Pricing Tiers
+ Feature
+ Free ■0/month
+Starter
+■199/month
+Pro ■499/month
+Enterprise Custom
+Resumes
+1
+3
+Unlimited
+Unlimited
+Templates
+3 basic
+8
+All 15+
+Custom
+AI Suggestions/day
+10
+50
+Unlimited
+Unlimited
+ATS Score Checks
+2/month
+15/month
+Unlimited
+Unlimited
+JD Tailoring
+✗
+5/month
+Unlimited
+Unlimited
+Resume Roast
+✗
+1/month
+Unlimited
+Unlimited
+AI Recruiter Sim
+✗
+✗
+✓
+✓
+Version History
+✗
+5 versions
+Unlimited
+Unlimited
+PDF Export
+1 (watermark)
+Unlimited
+Unlimited
+Unlimited
+Priority Support
+✗
+Email
+Chat + Email
+Dedicated
+College Dashboard
+✗
+✗
+✗
+✓
+12.2 Revenue Streams
+ Subscription (Primary): MRR from Starter + Pro plans — target 5,000 paying users in Year 1
+ College Partnerships: ■50,000–■2L/year per institution for placement cell dashboards
+ Affiliate Revenue: Job portal referrals (Naukri, LinkedIn) — ■50–200 per successful referral
+ Resume Writing Service: AI-assisted human review at ■999 — hybrid upsell
+ API Licensing: Phase 3 — license ATS scoring API to bootcamps and coaching institutes
+12.3 Conversion Funnel Strategy
+ Value-first onboarding: resume preview before signup — reduces friction
+ AI suggestion limit hit: contextual upsell ('Upgrade to get 40 more suggestions today')
+ ATS score shown partially free, full breakdown is Pro — creates curiosity gap
+ Resume Roast is viral feature — shareable social content drives organic acquisition
+ Annual plan: 2 months free (■1,990/yr Starter, ■4,990/yr Pro) — improves LTV
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 28
+13. MVP Roadmap — Phase 1 → 3
+Phase 1 — Foundation MVP (Weeks 1–8)
+ Feature
+ Priority
+ Description
+ 
+Auth System
+Must
+JWT + Google OAuth, email verification
+Resume Builder
+Must
+Section-based editor, 5 core sections
+3 Templates
+Must
+ATS-safe Fresher, Technical, Clean templates
+AI Bullet Improvement
+Must
+Single bullet rewrite, 3 suggestions
+Basic ATS Score
+Must
+Rule-based scoring (no AI) — 15 criteria
+PDF Export
+Must
+Puppeteer-based, ATS-safe PDF
+Free Tier
+Must
+1 resume, 10 AI suggestions/day
+MySQL Schema
+Must
+All core tables from Section 7
+Phase 2 — AI Core (Weeks 9–16)
+ Feature
+ Priority
+ Description
+ 
+Full AI Scoring
+Must
+GPT-powered multi-dimension scoring
+JD Upload + Matching
+Must
+Keyword extraction + match score
+JD Tailoring
+Must
+AI rewrites bullets for JD alignment
+Resume Coach Chat
+Must
+Conversational AI in editor sidebar
+AI Questioning System
+Must
+Interview-style achievement extraction
+Version History
+Must
+Snapshot + restore
+Razorpay Payments
+Must
+Starter + Pro subscription billing
+Resume Roast Mode
+Should
+Viral premium feature
+10+ Templates
+Should
+Expand template library
+Hinglish UI mode
+Should
+Toggle EN/HI interface
+Phase 3 — Growth (Weeks 17–28)
+ Feature
+ Priority
+ Description
+ 
+AI Recruiter Simulation
+Must
+Premium feature for interview prep bridge
+Analytics Dashboard
+Must
+User score trends, AI usage, export history
+College B2B Portal
+Should
+Placement cell management dashboard
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 29
+ Feature
+ Priority
+ Description
+ 
+LinkedIn Optimization
+Should
+AI headline + about section rewriter
+Mobile PWA
+Should
+Offline-capable progressive web app
+Team Collaboration
+Could
+Share resume with mentor for review
+API Public Beta
+Could
+ATS scoring API for third parties
+Interview Prep Module
+Future
+AI-generated questions from resume
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 30
+14. Technical Architecture
+Production-grade monorepo architecture
+14.1 Monorepo Structure
+Project Structure:
+resume-ai/
+■■■ apps/
+■ ■■■ web/ # Next.js 14 frontend (App Router)
+■ ■■■ api/ # Node.js + Express backend
+■■■ packages/
+■ ■■■ ai-engine/ # AI service layer (shared)
+■ ■■■ pdf-service/ # Puppeteer PDF generation
+■ ■■■ scoring-engine/ # Resume scoring logic
+■ ■■■ shared-types/ # TypeScript interfaces
+■■■ docker-compose.yml
+■■■ turbo.json # Turborepo build config
+14.2 Frontend Architecture (Next.js 14)
+Concern
+ Solution
+ 
+App Router
+app/ directory — server components for SEO pages, client for editor
+State Mgmt
+Zustand — resume editor state, AI suggestions queue, user session
+Rich Text
+TipTap editor — ProseMirror-based, extensible for AI inline suggestions
+PDF Preview
+react-pdf — live resume preview in editor
+AI Streaming
+Vercel AI SDK — streams GPT responses to coach chat UI
+Styling
+Tailwind CSS + shadcn/ui component library
+Auth
+next-auth with JWT strategy — cookies for session
+14.3 Backend Architecture (Node.js + Express)
+Concern
+ Solution
+ 
+API Layer
+Express.js — RESTful, versioned (/api/v1/)
+ORM
+Sequelize + MySQL2 — type-safe queries, migrations
+Auth
+jsonwebtoken + passport-jwt + passport-google-oauth20
+AI Service
+OpenAI Node SDK — modular service classes per AI feature
+PDF Gen
+Puppeteer — headless Chrome for pixel-perfect PDF rendering
+Queue
+Bull + Redis — PDF generation and email jobs queued async
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 31
+Concern
+ Solution
+ 
+Validation
+Zod — runtime schema validation on all API inputs
+Logging
+Winston + Morgan — structured JSON logs
+14.4 Caching Strategy
+ Redis Layer 1: AI response cache — hash(resume_section + prompt_version) → cache 1 hour
+ Redis Layer 2: ATS score cache — hash(resume_content) → cache 30 min
+ Redis Layer 3: Session data + JWT denylist for logout
+ MySQL Query Cache: Frequently read templates and subscription plans cached at app start
+14.5 PDF Generation Pipeline
+1. Export request → Bull queue job created → 2. Worker picks up job → 3. Puppeteer renders resume HTML template
+with user data → 4. PDF saved to /uploads/exports/{user_id}/{uuid}.pdf → 5. Export record created in DB with expiry →
+6. Download URL returned to frontend via WebSocket notification
+14.6 Environment Variables
+.env structure:
+# Database
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=resumeai
+DB_USER=resumeai_user
+DB_PASSWORD=
+# Auth
+JWT_ACCESS_SECRET=<256-bit-secret>
+JWT_REFRESH_SECRET=
+JWT_ACCESS_EXPIRY=15m
+JWT_REFRESH_EXPIRY=7d
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+# AI
+OPENAI_API_KEY=sk-...
+OPENAI_ORG_ID=org-...
+AI_DAILY_BUDGET_USD=50
+# Payments
+RAZORPAY_KEY_ID=rzp_live_...
+RAZORPAY_KEY_SECRET=
+# Redis
+REDIS_URL=redis://localhost:6379
+# App
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 32
+NEXT_PUBLIC_APP_URL=https://resumeai.in
+NODE_ENV=production
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 33
+15. Analytics & Tracking
+15.1 Key Metrics to Track
+ Metric
+ Definition & Target
+ 
+Activation Rate
+% users who complete first resume section after signup — target 60%
+Resume Completion Rate
+% resumes with 4+ sections filled — target 45%
+AI Acceptance Rate
+% AI suggestions accepted by users — target 35%+ means prompts are working
+ATS Check Conversion
+% users who run ATS check after building — target 70%
+Export Conversion
+% sessions ending in PDF export — target 40%
+Free to Paid
+% free users who upgrade within 30 days — target 8%
+AI Cost per User
+OpenAI spend per MAU — budget ■15/user/month
+D7 / D30 Retention
+Users returning after 7/30 days — target 30% D7, 15% D30
+15.2 Analytics Tools Stack
+ Posthog (self-hosted): Event tracking, session recording, funnel analysis — privacy-compliant
+ Custom MySQL dashboard: AI usage, token spend, export counts via usage_logs table queries
+ Google Analytics 4: Traffic sources, device breakdown, geographic data
+ Sentry: Frontend error tracking + performance monitoring
+ Uptime monitoring: Better Uptime — API health checks every 30 seconds
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 34
+16. Risks & Mitigation
+Risk
+Severity
+ Scenario
+ Mitigation
+ 
+AI Hallucination
+High
+AI invents job titles or skills
+Strict JSON schema + user must accept changes +
+no auto-apply mode
+API Cost Explosion
+High
+OpenAI costs spike with scale
+Per-user daily limits, gpt-4o-mini for simple tasks,
+aggressive caching
+ATS Inconsistency
+Medium
+Different ATS systems have
+different rules
+Score against common subset (Workday,
+Greenhouse, Taleo) + disclaimer shown
+Generic AI Outputs
+Medium
+All users get similar-sounding
+resumes
+Few-shot examples with diverse styles, user can
+request 'different tone'
+User Trust
+Medium
+Users worried AI will 'fake' their
+resume
+Clear messaging: AI improves HOW you say it, never
+WHAT you did
+Content Plagiarism
+Low
+AI might generate plagiarized
+phrases
+Originality is built into prompts — STAR format is
+always personalized to input
+Razorpay Failures
+Low
+Payment gateway downtime
+Grace period: 3 days before subscription downgrade
+on payment failure
+
+ResumeAI
+AI Resume Builder + Coach — PRD v1.0
+Confidential & Proprietary  |  ResumeAI 2025
+Page 35
+17. Future Vision & Roadmap
+Where ResumeAI goes in Year 2–3
+Vision 2027: ResumeAI becomes India's #1 AI career platform — not just resumes, but LinkedIn, interviews, job matching,
+and career coaching in one intelligent system.
+17.1 Product Expansion Roadmap
+ Feature
+ Target
+ Description
+ 
+LinkedIn Optimizer
+Q1 2026
+AI rewrites LinkedIn headline, About, and experience sections for searchability
+Interview Prep AI
+Q2 2026
+Resume-based question bank + AI mock interviewer with feedback
+Job Matching Engine
+Q3 2026
+Match user's resume against live Naukri/LinkedIn job listings
+AI Career Coach
+Q4 2026
+Long-term career advisor — skill gap analysis, learning path, salary negotiation
+AI Portfolio Builder
+Q1 2027
+Auto-generated personal website from resume data
+Video Resume
+Q2 2027
+AI-scripted 60-second video resume with teleprompter
+Referral Network
+Q3 2027
+Connect job seekers with alumni at target companies
+Salary Intelligence
+Q4 2027
+AI salary negotiation coach based on role, city, and experience data
+17.2 Platform Evolution
+ B2C → B2B2C: Partner with 500+ colleges for placement portal integration — captive user acquisition
+ Vernacular AI: Full Hindi, Tamil, Telugu resume coaching — massive untapped Indian market
+ WhatsApp Bot: Resume review and ATS check via WhatsApp — meet users where they are
+ AI Model Ownership: Fine-tune open-source LLM on Indian resume corpus — reduce OpenAI dependency
+ Data Moat: Anonymized resume + outcome data (did they get hired?) → unique training dataset
+ ResumeAI — Product Requirements Document
+ Version 1.0  2025  Confidential
+ 

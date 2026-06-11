@@ -1,0 +1,370 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum ExperienceLevel {
+  INTERN
+  ENTRY
+  MID
+  SENIOR
+  LEAD
+  EXECUTIVE
+}
+
+enum PreferredLanguage {
+  en
+  hi
+  es
+  fr
+  de
+  zh
+  ja
+  ko
+  pt
+  ar
+}
+
+enum OAuthProvider {
+  GOOGLE
+  GITHUB
+  LINKEDIN
+}
+
+enum ResumeStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum SectionType {
+  CONTACT
+  SUMMARY
+  EXPERIENCE
+  EDUCATION
+  SKILLS
+  PROJECTS
+  CERTIFICATIONS
+  LANGUAGES
+  AWARDS
+  CUSTOM
+}
+
+enum AIModuleName {
+  BULLET_IMPROVER
+  ATS_ANALYZER
+  JD_EXTRACTOR
+  RESUME_COACH
+  ROAST_ENGINE
+  SCORING_ENGINE
+  QUESTION_ENGINE
+  RECRUITER_SIM
+  SUMMARY_GENERATOR
+}
+
+enum TemplateCategory {
+  PROFESSIONAL
+  CREATIVE
+  MINIMAL
+  TECHNICAL
+  ACADEMIC
+}
+
+enum SubscriptionPlan {
+  FREE
+  STARTER
+  PRO
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  EXPIRED
+  PAST_DUE
+}
+
+enum ExportType {
+  PDF
+  DOCX
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+model User {
+  id              String            @id @default(uuid()) @db.VarChar(36)
+  email           String            @unique @db.VarChar(255)
+  passwordHash    String            @map("password_hash") @db.Text
+  fullName        String            @map("full_name") @db.VarChar(255)
+  avatarUrl       String?           @map("avatar_url") @db.Text
+  targetRole      String?           @map("target_role") @db.VarChar(255)
+  experienceLevel ExperienceLevel   @default(ENTRY) @map("experience_level")
+  preferredLang   PreferredLanguage @default(en) @map("preferred_lang")
+  oauthProvider   OAuthProvider?    @map("oauth_provider")
+  oauthUid        String?           @map("oauth_uid") @db.VarChar(255)
+  isActive        Boolean           @default(true) @map("is_active")
+  emailVerified   Boolean           @default(false) @map("email_verified")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  // Relationships
+  subscription     Subscription?
+  resumes          Resume[]
+  aiFeedbacks      AIFeedback[]
+  jobDescriptions  JobDescription[]
+  exports          Export[]
+  usageLogs        UsageLog[]
+  analyticsEvents  AnalyticsEvent[]
+
+  @@map("users")
+  @@index([email])
+  @@index([oauthProvider, oauthUid])
+  @@index([experienceLevel])
+  @@index([createdAt])
+}
+
+model Template {
+  id           String           @id @default(uuid()) @db.VarChar(36)
+  name         String           @db.VarChar(255)
+  category     TemplateCategory @default(PROFESSIONAL)
+  thumbnailUrl String           @map("thumbnail_url") @db.Text
+  htmlTemplate String           @map("html_template") @db.LongText
+  cssStyles    String           @map("css_styles") @db.LongText
+  isPremium    Boolean          @default(false) @map("is_premium")
+  isActive     Boolean          @default(true) @map("is_active")
+  sortOrder    Int              @default(0) @map("sort_order")
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+
+  // Relationships
+  resumes Resume[]
+
+  @@map("templates")
+  @@index([category, isActive])
+  @@index([isPremium, sortOrder])
+}
+
+model Subscription {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  userId    String   @unique @map("user_id") @db.VarChar(36)
+  plan      SubscriptionPlan @default(FREE)
+  status    SubscriptionStatus @default(ACTIVE)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+  @@index([userId])
+  @@index([plan, status])
+}
+
+model Resume {
+  id           String       @id @default(uuid()) @db.VarChar(36)
+  userId       String       @map("user_id") @db.VarChar(36)
+  title        String       @db.VarChar(255)
+  templateId   String?      @map("template_id") @db.VarChar(36)
+  status       ResumeStatus @default(DRAFT)
+  atsScore     Int          @default(0) @map("ats_score")
+  overallScore Int          @default(0) @map("overall_score")
+  isPrimary    Boolean      @default(false) @map("is_primary")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+
+  // Relationships
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template       Template?       @relation(fields: [templateId], references: [id])
+  sections       ResumeSection[]
+  versions       ResumeVersion[]
+  aiFeedbacks    AIFeedback[]
+  atsScores      ATSScore[]
+  exports        Export[]
+
+  @@map("resumes")
+  @@index([userId])
+  @@index([templateId])
+  @@index([userId, status])
+  @@index([isPrimary, userId])
+  @@index([overallScore])
+  @@index([atsScore])
+  @@index([createdAt])
+}
+
+model ResumeSection {
+  id           String      @id @default(uuid()) @db.VarChar(36)
+  resumeId     String      @map("resume_id") @db.VarChar(36)
+  sectionType  SectionType @map("section_type")
+  sectionOrder Int         @map("section_order")
+  content      Json
+  isVisible    Boolean     @default(true) @map("is_visible")
+  aiScore      Int         @default(0) @map("ai_score")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  // Relationships
+  resume      Resume       @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  aiFeedbacks AIFeedback[]
+
+  @@map("resume_sections")
+  @@index([resumeId])
+  @@index([resumeId, sectionType])
+  @@index([sectionOrder])
+}
+
+model ResumeVersion {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  resumeId    String   @map("resume_id") @db.VarChar(36)
+  versionName String   @map("version_name") @db.VarChar(255)
+  resumeData  Json     @map("resume_data")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relationships
+  resume  Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  exports Export[]
+
+  @@map("resume_versions")
+  @@index([resumeId])
+  @@index([resumeId, createdAt])
+}
+
+model AIFeedback {
+  id                String       @id @default(uuid()) @db.VarChar(36)
+  userId            String       @map("user_id") @db.VarChar(36)
+  resumeId          String?      @map("resume_id") @db.VarChar(36)
+  sectionId         String?      @map("section_id") @db.VarChar(36)
+  moduleName        AIModuleName @map("module_name")
+  originalText      String       @map("original_text") @db.Text
+  aiResponse        String       @map("ai_response") @db.Text
+  tokenUsage        Int          @default(0) @map("token_usage")
+  helpfulnessRating Int?         @map("helpfulness_rating")
+  createdAt         DateTime     @default(now()) @map("created_at")
+
+  // Relationships
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resume  Resume?        @relation(fields: [resumeId], references: [id], onDelete: SetNull)
+  section ResumeSection? @relation(fields: [sectionId], references: [id], onDelete: SetNull)
+
+  @@map("ai_feedbacks")
+  @@index([userId])
+  @@index([resumeId])
+  @@index([sectionId])
+  @@index([userId, moduleName])
+  @@index([createdAt])
+}
+
+model JobDescription {
+  id            String   @id @default(uuid()) @db.VarChar(36)
+  userId        String   @map("user_id") @db.VarChar(36)
+  title         String   @db.VarChar(255)
+  company       String?  @db.VarChar(255)
+  rawText       String   @map("raw_text") @db.LongText
+  extractedData Json     @map("extracted_data")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  // Relationships
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  atsScores ATSScore[]
+
+  @@map("job_descriptions")
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model ATSScore {
+  id               String   @id @default(uuid()) @db.VarChar(36)
+  resumeId         String   @map("resume_id") @db.VarChar(36)
+  jobDescriptionId String?  @map("job_description_id") @db.VarChar(36)
+  overallScore     Int      @map("overall_score")
+  keywordScore     Int      @map("keyword_score")
+  formatScore      Int      @map("format_score")
+  impactScore      Int      @map("impact_score")
+  readabilityScore Int      @map("readability_score")
+  breakdown        Json
+  missingKeywords  Json     @map("missing_keywords")
+  suggestions      Json
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  // Relationships
+  resume         Resume          @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  jobDescription JobDescription? @relation(fields: [jobDescriptionId], references: [id], onDelete: SetNull)
+
+  @@map("ats_scores")
+  @@index([resumeId])
+  @@index([jobDescriptionId])
+  @@index([resumeId, jobDescriptionId])
+  @@index([overallScore])
+  @@index([createdAt])
+}
+
+model Export {
+  id          String     @id @default(uuid()) @db.VarChar(36)
+  userId      String     @map("user_id") @db.VarChar(36)
+  resumeId    String     @map("resume_id") @db.VarChar(36)
+  versionId   String?    @map("version_id") @db.VarChar(36)
+  exportType  ExportType @map("export_type")
+  fileUrl     String     @map("file_url") @db.Text
+  fileSizeKb  Int        @map("file_size_kb")
+  expiresAt   DateTime   @map("expires_at")
+  createdAt   DateTime   @default(now()) @map("created_at")
+
+  // Relationships
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resume  Resume         @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  version ResumeVersion? @relation(fields: [versionId], references: [id], onDelete: SetNull)
+
+  @@map("exports")
+  @@index([userId])
+  @@index([resumeId])
+  @@index([versionId])
+  @@index([userId, createdAt])
+  @@index([expiresAt])
+}
+
+model UsageLog {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  userId    String   @map("user_id") @db.VarChar(36)
+  actionType String   @map("action_type") @db.VarChar(255)
+  metadata  Json
+  ipAddress String?  @map("ip_address") @db.VarChar(255)
+  userAgent String?  @map("user_agent") @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("usage_logs")
+  @@index([userId])
+  @@index([actionType])
+  @@index([userId, actionType])
+  @@index([createdAt])
+}
+
+model AnalyticsEvent {
+  id         String   @id @default(uuid()) @db.VarChar(36)
+  userId     String?  @map("user_id") @db.VarChar(36)
+  sessionId  String   @map("session_id") @db.VarChar(255)
+  eventType  String   @map("event_type") @db.VarChar(100)
+  entityType String?  @map("entity_type") @db.VarChar(100)
+  entityId   String?  @map("entity_id") @db.VarChar(100)
+  path       String?  @db.Text
+  referrer   String?  @db.Text
+  metadata   Json?
+  ipAddress  String?  @map("ip_address") @db.VarChar(255)
+  userAgent  String?  @map("user_agent") @db.Text
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("analytics_events")
+  @@index([userId])
+  @@index([sessionId])
+  @@index([eventType])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
