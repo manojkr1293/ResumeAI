@@ -18,7 +18,7 @@ const startServer = async () => {
     // 2. Instantiate and start listening
     server = http.createServer(app);
 
-    const PORT = process.env.PORT || env.SERVER_PORT || 5000;
+    const PORT: number = Number(process.env.PORT ?? 5000);
 
     server.listen(PORT, "0.0.0.0", () => {
       logger.info(
