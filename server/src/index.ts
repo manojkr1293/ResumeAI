@@ -17,8 +17,9 @@ const startServer = async () => {
 
     // 2. Instantiate and start listening
     server = http.createServer(app);
-    
-    server.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
+
+    server.listen(process.env.PORT || 5000, "0.0.0.0", () => {
+    //server.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
       logger.info(
         `🚀 Server running in ${env.NODE_ENV} mode at http://${env.SERVER_HOST}:${env.SERVER_PORT}${env.API_PREFIX}`
       );
