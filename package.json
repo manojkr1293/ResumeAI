@@ -48,6 +48,7 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "rimraf": "^5.0.7",
+    "tsc-alias": "^1.8.17",
     "typescript": "^5.4.5"
   }
 }
