@@ -18,10 +18,11 @@ const startServer = async () => {
     // 2. Instantiate and start listening
     server = http.createServer(app);
 
-    server.listen(process.env.PORT || 5000, "0.0.0.0", () => {
-    //server.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
+    const PORT = process.env.PORT || env.SERVER_PORT || 5000;
+
+    server.listen(PORT, "0.0.0.0", () => {
       logger.info(
-        `🚀 Server running in ${env.NODE_ENV} mode at http://${env.SERVER_HOST}:${env.SERVER_PORT}${env.API_PREFIX}`
+        `🚀 Server running in ${env.NODE_ENV} mode at http://0.0.0.0:${PORT}${env.API_PREFIX}`
       );
       logger.info(`Process PID: ${process.pid}`);
     });
