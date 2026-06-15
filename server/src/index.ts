@@ -1,5 +1,5 @@
 // ─── Import Environment Config FIRST ──────────────────────────────────────────
-import env from './config/env'; // Triggers environment schema parsing
+//import env from './config/env'; // Triggers environment schema parsing
 
 import http from 'http';
 import app from './app';
