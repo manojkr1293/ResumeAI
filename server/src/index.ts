@@ -9,32 +9,26 @@ import logger from './config/logger';
 let server: http.Server;
 
 const startServer = async () => {
-  try {
-    // 1. Establish Database Connection
-    logger.info('Connecting to MySQL database...');
-    await connectDb();
-    logger.info('MySQL Database connected successfully.');
+  console.log("STARTSERVER CALLED");
 
-    console.log("APP STARTED");
-    console.log("DATABASE URL EXISTS:", !!process.env.DATABASE_URL);
-    // 2. Instantiate and start listening
+  try {
+    console.log("BEFORE DB");
+
+    await connectDb();
+
+    console.log("AFTER DB");
+
     server = http.createServer(app);
 
     const PORT = Number(process.env.PORT ?? 5000);
 
-    if (isNaN(PORT)) {
-      throw new Error("Invalid PORT");
-    }
-    
+    console.log("PORT:", PORT);
+
     server.listen(PORT, "0.0.0.0", () => {
-      logger.info(
-        `🚀 Server running in ${env.NODE_ENV} mode at http://0.0.0.0:${PORT}${env.API_PREFIX}`
-      );
-      logger.info(`Process PID: ${process.pid}`);
+      console.log("LISTENING");
     });
   } catch (error) {
-    logger.error('Failed to initialize server application context:', error);
-    process.exit(1);
+    console.error("STARTUP ERROR:", error);
   }
 };
 
