@@ -15,6 +15,8 @@ const startServer = async () => {
     await connectDb();
     logger.info('MySQL Database connected successfully.');
 
+    console.log("APP STARTED");
+    console.log("DATABASE URL EXISTS:", !!process.env.DATABASE_URL);
     // 2. Instantiate and start listening
     server = http.createServer(app);
 
