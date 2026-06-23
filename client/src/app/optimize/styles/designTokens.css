@@ -1,0 +1,57 @@
+/* designTokens.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Primary palette – adjust hue for brand */
+  --color-primary-hue: 210; /* cool blue */
+  --color-primary: hsl(var(--color-primary-hue), 80%, 55%);
+  --color-primary-light: hsl(var(--color-primary-hue), 70%, 80%);
+  --color-primary-dark: hsl(var(--color-primary-hue), 70%, 30%);
+
+  /* Neutral */
+  --color-bg: hsl(210, 13%, 12%); /* dark background */
+  --color-surface: hsla(210, 13%, 20%, 0.85); /* glass surface */
+  --color-text: hsl(210, 10%, 93%);
+  --color-muted: hsl(210, 10%, 60%);
+
+  /* Success / warning */
+  --color-success: hsl(140, 70%, 45%);
+  --color-warning: hsl(30, 80%, 45%);
+  --color-error: hsl(0, 70%, 45%);
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Typography */
+  --font-family-sans: 'Inter', system-ui, sans-serif;
+  --font-size-base: 1rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
+
+html {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+@media print {
+  body, main, section, div, h1, h2, h3, h4, h5, h6, p, span, li, ul, text, button, a {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #000000 !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+

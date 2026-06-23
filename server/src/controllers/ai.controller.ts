@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import pdfParse from 'pdf-parse';
+import mammoth from 'mammoth';
 import { AIRepository } from '../repositories/ai.repository';
 import { ValidationError, NotFoundError, AIServiceError } from '../errors/index';
 import { sendSuccess } from '../utils/response';
@@ -23,14 +25,25 @@ export class AIController {
       ? env.OPENAI_API_KEY
       : '';
 
-    return env.GEMINI_API_KEY || env.GOOGLE_GENERATIVE_AI_API_KEY || env.GOOGLE_API_KEY || googleOpenAICompatKey || '';
+    return (
+      env.GEMINI_API_KEY ||
+      env.GOOGLE_GENERATIVE_AI_API_KEY ||
+      env.GOOGLE_API_KEY ||
+      googleOpenAICompatKey ||
+      ''
+    );
   }
 
-  private async generateGeminiText(prompt: string, config: GeminiGenerationConfig = {}): Promise<string> {
+  private async generateGeminiText(
+    prompt: string,
+    config: GeminiGenerationConfig = {},
+  ): Promise<string> {
     const apiKey = this.getGeminiApiKey();
 
     if (!apiKey) {
-      throw new AIServiceError('Gemini API key is not configured. Add GEMINI_API_KEY to your .env file.');
+      throw new AIServiceError(
+        'Gemini API key is not configured. Add GEMINI_API_KEY to your .env file.',
+      );
     }
 
     const preferredModel = env.GEMINI_MODEL || 'gemini-2.5-flash';
@@ -61,11 +74,15 @@ export class AIController {
             }),
           });
 
-          const payload = await response.json() as any;
+          const payload = (await response.json()) as any;
 
           if (!response.ok) {
-            lastError = payload?.error?.message || `Gemini request failed with status ${response.status}`;
-            const retryable = response.status === 429 || response.status >= 500 || /high demand|overloaded|temporar/i.test(lastError);
+            lastError =
+              payload?.error?.message || `Gemini request failed with status ${response.status}`;
+            const retryable =
+              response.status === 429 ||
+              response.status >= 500 ||
+              /high demand|overloaded|temporar/i.test(lastError);
             if (retryable) {
               continue;
             }
@@ -99,13 +116,20 @@ export class AIController {
   }
 
   private extractJson(text: string): string {
-    const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+    const cleaned = text
+      .replace(/^```(?:json)?\s*/i, '')
+      .replace(/\s*```$/, '')
+      .trim();
     const firstArray = cleaned.indexOf('[');
     const lastArray = cleaned.lastIndexOf(']');
     const firstObject = cleaned.indexOf('{');
     const lastObject = cleaned.lastIndexOf('}');
 
-    if (firstArray !== -1 && lastArray > firstArray && (firstObject === -1 || firstArray < firstObject)) {
+    if (
+      firstArray !== -1 &&
+      lastArray > firstArray &&
+      (firstObject === -1 || firstArray < firstObject)
+    ) {
       return cleaned.slice(firstArray, lastArray + 1);
     }
 
@@ -130,6 +154,181 @@ export class AIController {
       .join('\n\n');
   }
 
+  private buildCareerWorkflowPrompt(resumeText: string, jobDescription: string): string {
+    return `System: You are an expert ATS Resume Writer, LinkedIn Branding Specialist, and Career Coach.
+Return only valid JSON with this shape:
+{
+  "overallScore": number,
+  "keywordScore": number,
+  "formatScore": number,
+  "impactScore": number,
+  "readabilityScore": number,
+  "atsAnalysis": {
+    "atsMatchScore": number,
+    "missingKeywords": string[],
+    "matchingKeywords": string[],
+    "skillGapAnalysis": string[],
+    "resumeStrengths": string[],
+    "resumeWeaknesses": string[],
+    "sectionWiseSuggestions": {
+      "professionalSummary": string[],
+      "skills": string[],
+      "experience": string[],
+      "education": string[],
+      "projects": string[],
+      "formatting": string[]
+    }
+  },
+  "missingKeywords": string[],
+  "suggestions": string[],
+  "optimizedResumeContent": {
+    "professionalSummary": string,
+    "skillsSection": {
+      "technicalSkills": string[],
+      "softSkills": string[],
+      "tools": string[]
+    },
+    "experienceBulletPoints": string[],
+    "keywordsToAddNaturally": string[]
+  },
+  "linkedinOptimization": {
+    "headlineVariations": string[],
+    "aboutSection": string,
+    "topSkills": string[],
+    "featuredAchievementHighlights": string[],
+    "recruiterFriendlyKeywords": string[]
+  },
+  "coverLetter": string,
+  "interviewQuestions": string[],
+  "emailToRecruiter": {
+    "subject": string,
+    "body": string
+  }
+}
+
+User: Analyze this resume against the job description.
+Follow these requirements exactly:
+- Provide a complete workflow output: Resume Upload -> ATS Score -> Resume Rewrite -> LinkedIn Profile Optimization -> Cover Letter -> Interview Questions -> Email to Recruiter.
+- Tone must be professional, achievement-oriented, recruiter optimized, and keyword rich but natural.
+- Never invent achievements, employers, degrees, certifications, tools, projects, dates, or numbers.
+- Use only information available in the resume and the job description.
+- Quantify impact only where the resume already supports it.
+- If a measurable result is not present, improve wording without adding fake metrics.
+- Cover letter must be 300-450 words, address the hiring manager professionally, explain candidate-job fit, highlight existing measurable achievements if any, show enthusiasm for the company and role, and be ready to send.
+- LinkedIn about section must be 300-500 words.
+- Return exactly 5 LinkedIn headline variations.
+- Return exactly 20 LinkedIn top skills.
+- Return practical interview questions tailored to the resume and target job.
+- Return a concise recruiter outreach email.
+
+Resume:
+${resumeText}
+
+Job description:
+${jobDescription}`;
+  }
+
+  private getCareerWorkflowFallback() {
+    return {
+      overallScore: 0,
+      keywordScore: 0,
+      formatScore: 0,
+      impactScore: 0,
+      readabilityScore: 0,
+      atsAnalysis: {
+        atsMatchScore: 0,
+        missingKeywords: [],
+        matchingKeywords: [],
+        skillGapAnalysis: [],
+        resumeStrengths: [],
+        resumeWeaknesses: [],
+        sectionWiseSuggestions: {
+          professionalSummary: [],
+          skills: [],
+          experience: [],
+          education: [],
+          projects: [],
+          formatting: [],
+        },
+      },
+      missingKeywords: [],
+      suggestions: ['AI returned an unreadable analysis. Please try again.'],
+      optimizedResumeContent: {
+        professionalSummary: '',
+        skillsSection: {
+          technicalSkills: [],
+          softSkills: [],
+          tools: [],
+        },
+        experienceBulletPoints: [],
+        keywordsToAddNaturally: [],
+      },
+      linkedinOptimization: {
+        headlineVariations: [],
+        aboutSection: '',
+        topSkills: [],
+        featuredAchievementHighlights: [],
+        recruiterFriendlyKeywords: [],
+      },
+      coverLetter: '',
+      interviewQuestions: [],
+      emailToRecruiter: {
+        subject: '',
+        body: '',
+      },
+    };
+  }
+
+  private async extractResumeTextFromUpload(file?: Express.Multer.File): Promise<string> {
+  if (!file) {
+    return '';
+  }
+
+  const filename = file.originalname.toLowerCase();
+  const mimeType = file.mimetype;
+
+  // Helper to safely parse PDF
+  const tryParsePdf = async () => {
+    try {
+      const parsed = await pdfParse(file.buffer);
+      return parsed.text.trim();
+    } catch (e) {
+      // Log the error for debugging but do not crash the request
+      console.warn('PDF parsing failed:', e instanceof Error ? e.message : e);
+      return '';
+    }
+  };
+
+  // Helper to safely parse DOCX
+  const tryParseDocx = async () => {
+    try {
+      const parsed = await mammoth.extractRawText({ buffer: file.buffer });
+      return parsed.value.trim();
+    } catch (e) {
+      console.warn('DOCX parsing failed:', e instanceof Error ? e.message : e);
+      return '';
+    }
+  };
+
+  if (filename.endsWith('.pdf') || mimeType === 'application/pdf') {
+    return await tryParsePdf();
+  }
+
+  if (
+    filename.endsWith('.docx') ||
+    mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  ) {
+    return await tryParseDocx();
+  }
+
+  if (filename.endsWith('.txt') || filename.endsWith('.md') || mimeType.startsWith('text/')) {
+    return file.buffer.toString('utf8').trim();
+  }
+
+  // If none of the supported types, return empty string rather than throwing
+  return '';
+}
+
   private async logFeedbackSafely(data: Parameters<AIRepository['logFeedback']>[0]): Promise<void> {
     try {
       await this.aiRepository.logFeedback(data);
@@ -140,7 +339,8 @@ export class AIController {
 
   private buildLocalResumeReview(resume: any): string {
     const sections = resume.sections || [];
-    const content = (type: string) => sections.find((section: any) => section.sectionType === type)?.content || {};
+    const content = (type: string) =>
+      sections.find((section: any) => section.sectionType === type)?.content || {};
     const summary = content('SUMMARY')?.text || '';
     const experience = content('EXPERIENCE')?.items || [];
     const skills = content('SKILLS')?.items || [];
@@ -170,7 +370,8 @@ export class AIController {
 
   private buildLocalSummary(resume: any, targetRole?: string): string {
     const sections = resume.sections || [];
-    const content = (type: string) => sections.find((section: any) => section.sectionType === type)?.content || {};
+    const content = (type: string) =>
+      sections.find((section: any) => section.sectionType === type)?.content || {};
     const experience = content('EXPERIENCE')?.items || [];
     const skills = content('SKILLS')?.items || [];
     const role = targetRole || resume.title || experience[0]?.position || 'professional';
@@ -244,39 +445,17 @@ ${bullets.join('\n')}`;
         throw new NotFoundError('Resume not found');
       }
 
-      const prompt = `System: You are an expert ATS resume analyzer.
-Return only valid JSON with this shape:
-{
-  "overallScore": number,
-  "keywordScore": number,
-  "formatScore": number,
-  "impactScore": number,
-  "readabilityScore": number,
-  "missingKeywords": string[],
-  "suggestions": string[]
-}
-
-User: Analyze this resume against the job description.
-
-Resume:
-${this.serializeResumeSections(resume)}
-
-Job description:
-${jobDescription}`;
+      const prompt = this.buildCareerWorkflowPrompt(
+        this.serializeResumeSections(resume),
+        jobDescription,
+      );
 
       const responseText = await this.generateGeminiText(prompt, {
         temperature: 0.3,
         responseMimeType: 'application/json',
+        timeoutMs: 75000,
       });
-      const analysis = this.parseJson(responseText, {
-        overallScore: 0,
-        keywordScore: 0,
-        formatScore: 0,
-        impactScore: 0,
-        readabilityScore: 0,
-        missingKeywords: [],
-        suggestions: ['AI returned an unreadable analysis. Please try again.'],
-      });
+      const analysis = this.parseJson(responseText, this.getCareerWorkflowFallback());
 
       await this.logFeedbackSafely({
         userId,
@@ -288,6 +467,52 @@ ${jobDescription}`;
       });
 
       sendSuccess(res, { analysis });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  optimizeUploadedResume = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const userId = (req as any).user?.userId;
+      const { resumeText = '', jobDescription } = req.body;
+
+      if (!userId) {
+        throw new ValidationError('User not authenticated');
+      }
+
+      const uploadedText = await this.extractResumeTextFromUpload(req.file);
+      const finalResumeText = `${uploadedText}\n\n${resumeText}`.trim();
+
+      if (!finalResumeText || !jobDescription) {
+        throw new ValidationError('Resume text/upload and job description are required');
+      }
+
+      const prompt = this.buildCareerWorkflowPrompt(finalResumeText, jobDescription);
+      const responseText = await this.generateGeminiText(prompt, {
+        temperature: 0.3,
+        responseMimeType: 'application/json',
+        timeoutMs: 75000,
+      });
+      const analysis = this.parseJson(responseText, this.getCareerWorkflowFallback());
+
+      await this.logFeedbackSafely({
+        userId,
+        moduleName: 'ATS_ANALYZER',
+        originalText: `Uploaded resume optimization\n\nJob description:\n${jobDescription}`,
+        aiResponse: JSON.stringify(analysis),
+        tokenUsage: 0,
+      });
+
+      sendSuccess(res, {
+        analysis,
+        source: req.file?.originalname ? 'upload' : 'paste',
+        fileName: req.file?.originalname || null,
+      });
     } catch (error) {
       next(error);
     }

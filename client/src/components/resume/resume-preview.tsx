@@ -94,8 +94,8 @@ export function ResumePreview({ data }: { data: ResumePreviewData }) {
       {data.experience.length > 0 && (
         <div className="mb-6">
           {sectionTitle('Experience')}
-          {data.experience.map((exp) => (
-            <div key={exp.id} className="mb-4">
+          {data.experience.map((exp, index) => (
+            <div key={`experience-${exp.id || index}-${index}`} className="mb-4">
               <div className="flex justify-between gap-4">
                 <h3 className="font-medium text-gray-900">{exp.position}</h3>
                 <span className="shrink-0 text-sm text-gray-600">
@@ -119,8 +119,8 @@ export function ResumePreview({ data }: { data: ResumePreviewData }) {
       {data.education.length > 0 && (
         <div className="mb-6">
           {sectionTitle('Education')}
-          {data.education.map((edu) => (
-            <div key={edu.id} className="mb-4">
+          {data.education.map((edu, index) => (
+            <div key={`education-${edu.id || index}-${index}`} className="mb-4">
               <div className="flex justify-between gap-4">
                 <h3 className="font-medium text-gray-900">{edu.degree} in {edu.field}</h3>
                 <span className="shrink-0 text-sm text-gray-600">
@@ -138,8 +138,8 @@ export function ResumePreview({ data }: { data: ResumePreviewData }) {
         <div className="mb-6">
           {sectionTitle('Skills')}
           <div className="flex flex-wrap gap-2">
-            {data.skills.map((skill) => (
-              <span key={skill.id} className={theme.chip}>
+            {data.skills.map((skill, index) => (
+              <span key={`skill-${skill.id || skill.name || index}-${index}`} className={theme.chip}>
                 {skill.name}
               </span>
             ))}
@@ -150,8 +150,8 @@ export function ResumePreview({ data }: { data: ResumePreviewData }) {
       {data.projects.length > 0 && (
         <div className="mb-6">
           {sectionTitle('Projects')}
-          {data.projects.map((project) => (
-            <div key={project.id} className="mb-4">
+          {data.projects.map((project, index) => (
+            <div key={`project-${project.id || index}-${index}`} className="mb-4">
               <h3 className="font-medium text-gray-900">{project.name}</h3>
               {project.technologies && <p className="text-sm text-gray-600">{project.technologies}</p>}
               <p className="mt-1 text-gray-700">{project.description}</p>
@@ -164,8 +164,8 @@ export function ResumePreview({ data }: { data: ResumePreviewData }) {
       {data.certifications.length > 0 && (
         <div className="mb-6">
           {sectionTitle('Certifications')}
-          {data.certifications.map((cert) => (
-            <div key={cert.id} className="mb-2">
+          {data.certifications.map((cert, index) => (
+            <div key={`certification-${cert.id || index}-${index}`} className="mb-2">
               <span className="text-gray-900">{cert.name}</span>
               <span className="text-gray-600"> - {cert.issuer}</span>
               <span className="text-sm text-gray-600"> ({cert.date})</span>
@@ -178,8 +178,8 @@ export function ResumePreview({ data }: { data: ResumePreviewData }) {
         <div className="mb-6">
           {sectionTitle('Languages')}
           <div className="flex flex-wrap gap-2">
-            {data.languages.map((lang) => (
-              <span key={lang.id} className={theme.chip}>
+            {data.languages.map((lang, index) => (
+              <span key={`language-${lang.id || lang.name || index}-${index}`} className={theme.chip}>
                 {lang.name} ({lang.proficiency})
               </span>
             ))}

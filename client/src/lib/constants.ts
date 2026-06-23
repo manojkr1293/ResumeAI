@@ -37,13 +37,15 @@ export const API_ENDPOINTS = {
     DUPLICATE: (id: string) => `/resumes/${id}/duplicate`,
     PRIMARY: (id: string) => `/resumes/${id}/primary`,
     SECTIONS: (resumeId: string) => `/resumes/${resumeId}/sections`,
-    SECTION_BY_ID: (resumeId: string, sectionId: string) => `/resumes/${resumeId}/sections/${sectionId}`,
+    SECTION_BY_ID: (resumeId: string, sectionId: string) =>
+      `/resumes/${resumeId}/sections/${sectionId}`,
     REORDER: (resumeId: string) => `/resumes/${resumeId}/sections/reorder`,
     VERSIONS: (resumeId: string) => `/resumes/${resumeId}/versions`,
   },
   AI: {
     IMPROVE_BULLET: '/ai/improve-bullets',
     ANALYZE_ATS: '/ai/analyze-ats',
+    OPTIMIZE_UPLOADED_RESUME: '/ai/optimize-uploaded-resume',
     MATCH_JD: '/ai/match-jd',
     COACH: '/ai/coach',
     ROAST: '/ai/roast',

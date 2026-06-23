@@ -1,10 +1,17 @@
 import { Router } from 'express';
+import multer from 'multer';
 import aiController from '../controllers/ai.controller';
 import { authenticate } from '../middleware/auth';
 import { validateRequest } from '../middleware/validation';
 import { body } from 'express-validator';
 
 const router = Router();
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+});
 
 // All AI routes require authentication
 router.use(authenticate);
@@ -23,7 +30,7 @@ router.post(
     body('sectionId').optional().isString(),
   ],
   validateRequest,
-  aiController.improveBullets
+  aiController.improveBullets,
 );
 
 /**
@@ -38,7 +45,23 @@ router.post(
     body('jobDescription').notEmpty().withMessage('Job description is required'),
   ],
   validateRequest,
-  aiController.analyzeATS
+  aiController.analyzeATS,
+);
+
+/**
+ * @route   POST /api/v1/ai/optimize-uploaded-resume
+ * @desc    Optimize an uploaded or pasted resume against a job description
+ * @access  Private
+ */
+router.post(
+  '/optimize-uploaded-resume',
+  upload.single('resumeFile'),
+  [
+    body('resumeText').optional().isString(),
+    body('jobDescription').notEmpty().withMessage('Job description is required'),
+  ],
+  validateRequest,
+  aiController.optimizeUploadedResume,
 );
 
 /**
@@ -53,7 +76,7 @@ router.post(
     body('question').notEmpty().withMessage('Question is required'),
   ],
   validateRequest,
-  aiController.resumeCoach
+  aiController.resumeCoach,
 );
 
 /**
@@ -65,7 +88,7 @@ router.post(
   '/roast',
   [body('resumeId').notEmpty().withMessage('Resume ID is required')],
   validateRequest,
-  aiController.resumeRoast
+  aiController.resumeRoast,
 );
 
 /**
@@ -80,7 +103,7 @@ router.post(
     body('targetRole').optional().isString(),
   ],
   validateRequest,
-  aiController.generateSummary
+  aiController.generateSummary,
 );
 
 /**
@@ -102,7 +125,7 @@ router.post(
     body('rating').isInt({ min: 1, max: 5 }).withMessage('Rating must be between 1 and 5'),
   ],
   validateRequest,
-  aiController.rateFeedback
+  aiController.rateFeedback,
 );
 
 export default router;
