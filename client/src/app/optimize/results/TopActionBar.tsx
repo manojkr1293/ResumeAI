@@ -12,14 +12,7 @@ export default function TopActionBar({ reportId, data }: Props) {
   const [copied, setCopied] = useState(false)
 
   const handleDownloadDoc = () => {
-    const summary = data?.optimizedResumeContent?.professionalSummary || ''
-    const skills = data?.optimizedResumeContent?.skillsSection || {}
-    const bullets = data?.optimizedResumeContent?.experienceBulletPoints || []
     
-    const techSkills = Array.isArray(skills.technicalSkills) ? skills.technicalSkills.join(', ') : ''
-    const softSkills = Array.isArray(skills.softSkills) ? skills.softSkills.join(', ') : ''
-    const tools = Array.isArray(skills.tools) ? skills.tools.join(', ') : ''
-
     // Construct valid HTML Word document format
     const content = `
       <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>

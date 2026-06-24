@@ -9,11 +9,6 @@ import ResumeTab from "./ResumeTab"
 import LinkedInTab from "./LinkedInTab"
 import ApplyTab from "./ApplyTab"
 
-// Import design system
-import "../styles/designTokens.css"
-import "../styles/glassCard.css"
-import "../styles/animations.css"
-
 const TABS = ['Overview', 'Keywords', 'Resume', 'LinkedIn', 'Apply']
 
 const MOCK_FALLBACK = {
@@ -147,4 +142,4 @@ export default function ResultsPage() {
       </div>
     </main>
   )
-}
+}
