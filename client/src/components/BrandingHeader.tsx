@@ -31,7 +31,7 @@ export default function BrandingHeader({ theme, onToggleTheme }: BrandingHeaderP
   };
 
   const pathname = usePathname();
-  const useHomepageStyle = pathname === '/' || pathname === '/dashboard' || pathname === '/profile' || pathname === '/scratch' || pathname === '/optimize' || pathname?.startsWith('/optimize/results');
+  const useHomepageStyle = pathname === '/' || pathname === '/dashboard' || pathname === '/profile' || pathname === '/scratch' || pathname === '/optimize' || pathname?.startsWith('/optimize/results') || pathname?.startsWith('/tools');
 
   // Hide header on authentication pages (login/register)
   if (pathname?.startsWith('/auth')) {
@@ -59,6 +59,12 @@ export default function BrandingHeader({ theme, onToggleTheme }: BrandingHeaderP
                 >
                   Dashboard
                 </Link>
+				<Link
+                  href="/tools"
+                  className="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-slate-950"
+                >
+                  Tools
+                </Link>
                 <Link
                   href="/profile"
                   className="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-slate-950"
@@ -75,6 +81,12 @@ export default function BrandingHeader({ theme, onToggleTheme }: BrandingHeaderP
             ) : (
               <>
                 <Link
+                  href="/tools"
+                  className="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-slate-950"
+                >
+                  Tools
+                </Link>
+				<Link
                   href={secondaryHref}
                   className="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-slate-950"
                 >
