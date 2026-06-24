@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 
 import './globals.css';
 import AnalyticsTracker from '@/components/analytics-tracker';
+import BrandingHeader from '@/components/BrandingHeader';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -82,6 +83,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <AnalyticsTracker />
+        <BrandingHeader />
         {children}
       </body>
     </html>

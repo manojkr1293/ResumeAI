@@ -209,16 +209,7 @@ export default function OptimizeResumePage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-slate-100 pb-12 transition-colors duration-500">
-      <nav className="border-b border-slate-800/80 bg-slate-950/40 backdrop-blur-md sticky top-0 z-50">
-        <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/dashboard" className="flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white transition">
-            <FileText className="h-4.5 w-4.5 text-sky-400" /> Dashboard
-          </Link>
-          <button onClick={toggleTheme} className="p-2 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 hover:border-slate-700 transition">
-            {theme === 'dark' ? <Sun className="h-4.5 w-4.5 text-yellow-400" /> : <Moon className="h-4.5 w-4.5 text-slate-300" />}
-          </button>
-        </div>
-      </nav>
+      
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8 space-y-6">
         <div className="text-center sm:text-left">

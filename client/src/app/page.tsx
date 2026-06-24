@@ -62,31 +62,6 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-white text-slate-950">
-      <nav className="sticky top-0 z-40 border-b border-slate-100 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-md bg-indigo-600 text-white">
-              <FileText className="h-5 w-5" />
-            </span>
-            <span className="text-lg font-bold">ResumeAI</span>
-          </Link>
-
-          <div className="flex items-center gap-2">
-            <Link
-              href={secondaryHref}
-              className="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-slate-950"
-            >
-              {secondaryLabel}
-            </Link>
-            <Link
-              href={primaryHref}
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
-            >
-              {primaryLabel}
-            </Link>
-          </div>
-        </div>
-      </nav>
 
       <section className="mx-auto grid max-w-7xl gap-16 px-4 pb-20 pt-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8 lg:pb-28 lg:pt-24">
         <div>
