@@ -278,9 +278,7 @@ export default function DashboardPage() {
     router.push(`/scratch?resumeId=${id}&print=1`);
   };
 
-  const handleLogout = () => {
-    logout();
-  };
+
 
   if (!isMounted) {
     return null;
