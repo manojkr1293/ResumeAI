@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FileText, Sparkles, Sun, Moon, CheckCircle2, ChevronRight, AlertCircle, FileCheck, ArrowRight } from 'lucide-react';
+import {  Sparkles, CheckCircle2, AlertCircle, FileCheck, } from 'lucide-react';
 import { apiClient } from '@/lib/api-client';
 import { API_ENDPOINTS } from '@/lib/constants';
 import { useAuthStore } from '@/stores/auth.store';
@@ -12,9 +11,7 @@ import DragDropUpload from '@/components/DragDropUpload';
 import ResumePreview from '@/components/ResumePreview';
 
 // Import design styles
-import "./styles/designTokens.css";
-import "./styles/glassCard.css";
-import "./styles/animations.css";
+
 
 const getErrorMessage = (error: any): string => {
   if (error instanceof Error) return error.message;

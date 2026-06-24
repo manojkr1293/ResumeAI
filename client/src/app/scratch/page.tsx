@@ -824,6 +824,7 @@ export default function ScratchResumeBuilder() {
                 <Share2 className="h-4 w-4" />
                 Share
               </button>
+              
               <button
                 onClick={() => {
                   const win = globalThis as any;

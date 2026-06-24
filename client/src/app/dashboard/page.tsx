@@ -17,7 +17,6 @@ import {
   Star,
   Trash2,
   Upload,
-  UserRound,
 } from 'lucide-react';
 import { apiDelete, apiGet, apiPost, apiPut } from '@/lib/api-client';
 import { API_ENDPOINTS } from '@/lib/constants';
