@@ -107,7 +107,7 @@ const formatDate = (value?: string) => {
 export default function DashboardPage() {
   const router = useRouter();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const logout = useAuthStore((state) => state.logout);
+
   const [resumes, setResumes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
