@@ -8,7 +8,7 @@ type Props = {
   data: any
 }
 
-export default function TopActionBar({ reportId, data }: Props) {
+export default function TopActionBar({ reportId }: Props) {
   const [copied, setCopied] = useState(false)
 
   const handleDownloadDoc = () => {
