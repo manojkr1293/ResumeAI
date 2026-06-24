@@ -22,48 +22,6 @@ const getErrorMessage = (error: any): string => {
 
 
 
-type WorkflowAnalysis = {
-  overallScore?: number;
-  keywordScore?: number;
-  formatScore?: number;
-  impactScore?: number;
-  readabilityScore?: number;
-  missingKeywords?: string[];
-  suggestions?: string[];
-  atsAnalysis?: {
-    atsMatchScore?: number;
-    missingKeywords?: string[];
-    matchingKeywords?: string[];
-    skillGapAnalysis?: string[];
-    resumeStrengths?: string[];
-    resumeWeaknesses?: string[];
-    sectionWiseSuggestions?: Record<string, string[]>;
-  };
-  optimizedResumeContent?: {
-    professionalSummary?: string;
-    skillsSection?: {
-      technicalSkills?: string[];
-      softSkills?: string[];
-      tools?: string[];
-    };
-    experienceBulletPoints?: string[];
-    keywordsToAddNaturally?: string[];
-  };
-  linkedinOptimization?: {
-    headlineVariations?: string[];
-    aboutSection?: string;
-    topSkills?: string[];
-    featuredAchievementHighlights?: string[];
-    recruiterFriendlyKeywords?: string[];
-  };
-  coverLetter?: string;
-  interviewQuestions?: string[];
-  emailToRecruiter?: {
-    subject?: string;
-    body?: string;
-  };
-};
-
 export default function OptimizeResumePage() {
   const router = useRouter();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
