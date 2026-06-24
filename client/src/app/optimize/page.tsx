@@ -71,7 +71,7 @@ export default function OptimizeResumePage() {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeText, setResumeText] = useState('');
   const [jobDescription, setJobDescription] = useState('');
-  const [analysis, setAnalysis] = useState<WorkflowAnalysis | null>(null);
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [step, setStep] = useState(0);
@@ -105,7 +105,7 @@ export default function OptimizeResumePage() {
     }
   }, [isAuthenticated, isMounted, router]);
 
-  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+  
 
   const handleOptimize = async () => {
     if (!resumeFile && !resumeText.trim()) {
@@ -124,7 +124,7 @@ export default function OptimizeResumePage() {
       setLoading(true);
       setError('');
       const response = await apiClient.post(API_ENDPOINTS.AI.OPTIMIZE_UPLOADED_RESUME, formData, { timeout: 120000 });      const analysisData = (response.data as any)?.data?.analysis || null;
-      setAnalysis(analysisData);
+     
       const id = `rpt-${Date.now()}`;
       sessionStorage.setItem(`resumeReport:${id}`, JSON.stringify(analysisData));
       router.push(`/optimize/results?id=${encodeURIComponent(id)}`);
